@@ -24,7 +24,7 @@ export function ParticlesBackground() {
 
   return (
     <Particles
-      className="absolute inset-0 -z-10"
+      className="absolute inset-0 z-0"
       id="tsparticles"
       init={particlesInit}
       loaded={particlesLoaded}
@@ -58,7 +58,7 @@ export function ParticlesBackground() {
             color: "#3b82f6",
             distance: 150,
             enable: true,
-            opacity: 0.2,
+            opacity: 0.1,
             width: 1,
           },
           move: {

@@ -32,6 +32,7 @@ import { FloatingElement } from "@/components/floating-element"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { ContactInfoItem } from "@/components/contact-info-item"
 import { Toaster } from "@/components/ui/toaster"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export default function Portfolio() {
   const [mounted, setMounted] = useState(false)
@@ -53,13 +54,13 @@ export default function Portfolio() {
   if (!mounted) return null
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-background text-foreground">
       <Toaster />
       <ScrollProgress />
 
       {/* Header/Navigation */}
       <motion.header
-        className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60"
+        className="sticky top-0 z-[100] w-full border-b border-border bg-background/98 backdrop-blur-md supports-[backdrop-filter]:bg-background/95"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 100, damping: 15 }}
@@ -87,30 +88,33 @@ export default function Portfolio() {
               </motion.a>
             ))}
           </nav>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="hidden md:block">
-            <ResumeDownload />
-          </motion.div>
+          <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle />
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <ResumeDownload />
+            </motion.div>
+          </div>
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+            <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background border-border">
               <SheetHeader>
                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-4 mt-8">
                 <div className="mb-4">
-                  <h2 className="text-xl font-bold mb-2">Anjali Dave</h2>
-                  <p className="text-sm text-gray-600">Software Engineer</p>
+                  <h2 className="text-xl font-bold mb-2 text-foreground">Anjali Dave</h2>
+                  <p className="text-sm text-muted-foreground">Software Engineer</p>
                 </div>
                 <nav className="flex flex-col gap-2">
                   {["about", "experience", "skills", "projects", "education", "quotes", "contact"].map((item) => (
                     <SheetClose key={item} asChild>
                       <a
                         href={`#${item}`}
-                        className="text-base font-medium hover:text-primary transition-colors py-2 px-3 rounded-md hover:bg-gray-100"
+                        className="text-base font-medium hover:text-primary transition-colors py-2 px-3 rounded-md hover:bg-muted"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {item.charAt(0).toUpperCase() + item.slice(1)}
@@ -118,7 +122,8 @@ export default function Portfolio() {
                     </SheetClose>
                   ))}
                 </nav>
-                <div className="mt-4 pt-4 border-t">
+                <div className="mt-4 pt-4 border-t space-y-3">
+                  <ThemeToggle />
                   <ResumeDownload />
                 </div>
               </div>
@@ -128,15 +133,15 @@ export default function Portfolio() {
       </motion.header>
 
       {/* Hero Section */}
-      <section ref={heroRef} className="py-12 md:py-20 bg-gradient-to-b from-gray-50 to-white overflow-hidden relative">
+      <section ref={heroRef} className="py-12 md:py-20 bg-background overflow-hidden relative">
         <ParticlesBackground />
         <motion.div
           style={{ opacity, scale }}
-          className="container grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center px-4 sm:px-6"
+          className="relative z-10 container grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center px-4 sm:px-6"
         >
           <motion.div initial={{ opacity: 0, x: -100 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
             <motion.h1
-              className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3 sm:mb-4"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3 sm:mb-4 text-foreground"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.8 }}
@@ -144,7 +149,7 @@ export default function Portfolio() {
               Anjali Dave
             </motion.h1>
             <motion.h2
-              className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-4 sm:mb-6"
+              className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-4 sm:mb-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.8 }}
@@ -153,7 +158,7 @@ export default function Portfolio() {
               <TypingAnimation texts={["MERN Stack Developer", "Full Stack Developer", "React Specialist"]} />
             </motion.h2>
             <motion.p
-              className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6 max-w-lg"
+              className="text-sm sm:text-base text-foreground/90 mb-4 sm:mb-6 max-w-lg"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.8 }}
@@ -205,12 +210,12 @@ export default function Portfolio() {
               transition={{ delay: 0.3, type: "spring", stiffness: 100 }}
             >
               <motion.div
-                className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-xl mx-auto md:mx-0"
+                className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-white shadow-xl mx-auto md:mx-0"
                 whileHover={{ scale: 1.05, rotate: 5 }}
                 transition={{ type: "spring", stiffness: 200, damping: 10 }}
               >
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-05-17%20at%2012.40.37%20AM-bLNekMxJm0cOVMpuXPOH6vKmPNqyYT.jpeg"
+                  src="/images/anjali-work.png"
                   alt="Anjali Dave"
                   fill
                   className="object-cover"
@@ -220,56 +225,75 @@ export default function Portfolio() {
             </motion.div>
           </FloatingElement>
         </motion.div>
-
-        {/* <motion.div
-          className="absolute bottom-5 left-1/2 transform -translate-x-1/2"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-        >
-          <a href="#about" className="flex flex-col items-center text-gray-500 hover:text-primary transition-colors">
-            <span className="text-sm mb-1">Scroll Down</span>
-            <ChevronDown size={20} />
-          </a>
-        </motion.div> */}
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-12 bg-white relative">
+      <section id="about" className="py-12 bg-background relative">
         <AnimatedGradientBackground />
-        <div className="container px-4 sm:px-6">
+        <div className="container px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">About Me</h2>
           </ScrollReveal>
 
-          <div className="max-w-3xl mx-auto">
-            <ScrollReveal delay={0.2}>
-              <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4">
-                I'm a Software Engineer with a passion for creating efficient, user-friendly web applications. With over
-                4 years of experience in full-stack development, I specialize in the MERN stack (MongoDB, Express,
-                React, Node.js), building responsive and performant web solutions.
-              </p>
-            </ScrollReveal>
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+              <div className="space-y-4">
+                <ScrollReveal delay={0.2}>
+                  <p className="text-sm sm:text-base text-foreground/90 leading-relaxed">
+                    I'm a Software Engineer with a passion for creating efficient, user-friendly web applications. With over
+                    4 years of experience in full-stack development, I specialize in the MERN stack (MongoDB, Express,
+                    React, Node.js), building responsive and performant web solutions.
+                  </p>
+                </ScrollReveal>
 
-            <ScrollReveal delay={0.4}>
-              <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4">
-                My expertise includes front-end development with React, Next.js, and Gatsby, as well as working with
-                various CSS frameworks like Tailwind CSS and Material-UI. I'm experienced in integrating third-party
-                APIs and optimizing application performance.
-              </p>
-            </ScrollReveal>
+                <ScrollReveal delay={0.4}>
+                  <p className="text-sm sm:text-base text-foreground/90 leading-relaxed">
+                    My expertise includes front-end development with React, Next.js, and Gatsby, as well as working with
+                    various CSS frameworks like Tailwind CSS and Material-UI. I'm experienced in integrating third-party
+                    APIs and optimizing application performance.
+                  </p>
+                </ScrollReveal>
 
-            <ScrollReveal delay={0.6}>
-              <p className="text-sm sm:text-base text-gray-700">
-                I enjoy collaborating with teams, mentoring junior developers, and continuously learning new
-                technologies to stay at the forefront of web development.
-              </p>
-            </ScrollReveal>
+                <ScrollReveal delay={0.6}>
+                  <p className="text-sm sm:text-base text-foreground/90 leading-relaxed">
+                    I enjoy collaborating with teams, mentoring junior developers, and continuously learning new
+                    technologies to stay at the forefront of web development.
+                  </p>
+                </ScrollReveal>
+              </div>
+
+              <div className="space-y-4">
+                <ScrollReveal delay={0.2} direction="right">
+                  <p className="text-sm sm:text-base text-foreground/90 leading-relaxed">
+                    Throughout my career, I've had the opportunity to work on diverse projects ranging from gaming desktop
+                    applications to marketing analytics platforms. I thrive in environments where I can solve complex
+                    technical challenges and deliver solutions that make a real impact.
+                  </p>
+                </ScrollReveal>
+
+                <ScrollReveal delay={0.4} direction="right">
+                  <p className="text-sm sm:text-base text-foreground/90 leading-relaxed">
+                    I'm particularly passionate about building scalable architectures, implementing robust authentication
+                    systems, and creating seamless user experiences. My approach to development emphasizes clean code,
+                    best practices, and continuous improvement.
+                  </p>
+                </ScrollReveal>
+
+                <ScrollReveal delay={0.6} direction="right">
+                  <p className="text-sm sm:text-base text-foreground/90 leading-relaxed">
+                    When I'm not coding, I enjoy contributing to open-source projects, exploring new technologies, and
+                    sharing knowledge with the developer community. I believe in the power of technology to solve real-world
+                    problems and am always excited to take on new challenges.
+                  </p>
+                </ScrollReveal>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="py-12 bg-gray-50 relative">
+      <section id="experience" className="py-12 bg-muted/30 relative">
         <FloatingShapes />
         <div className="container px-4 sm:px-6">
           <ScrollReveal>
@@ -278,7 +302,7 @@ export default function Portfolio() {
 
           <div className="max-w-4xl mx-auto">
             <ScrollReveal direction="left">
-              <div className="relative border-l border-gray-300 pl-8 pb-10">
+              <div className="relative border-l border-border pl-8 pb-10">
                 <motion.div
                   className="absolute -left-3 top-0 h-6 w-6 rounded-full bg-primary flex items-center justify-center"
                   initial={{ scale: 0 }}
@@ -286,23 +310,23 @@ export default function Portfolio() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
                 >
-                  <Briefcase size={14} className="text-white" />
+                  <Briefcase size={14} className="text-primary-foreground" />
                 </motion.div>
 
                 <div className="mb-4">
                   <h3 className="text-lg sm:text-xl font-bold">Software Engineer</h3>
-                  <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base text-gray-600 mb-1">
+                  <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base text-muted-foreground mb-1">
                     <span className="font-medium">Algoris Pvt., Ahmedabad</span>
                     <span>•</span>
                     <span>May 2022 - Present</span>
                   </div>
-                  <p className="text-sm sm:text-base text-gray-700 mb-4">
+                  <p className="text-sm sm:text-base text-foreground/90 mb-4">
                     Algoris is a dynamic startup delivering cutting-edge software solutions for diverse industries,
                     catering primarily to US-based clients.
                   </p>
 
                   <h4 className="font-semibold text-base sm:text-lg mb-2">Key Contributions</h4>
-                  <ul className="list-disc pl-4 sm:pl-5 space-y-1.5 text-sm sm:text-base text-gray-700 mb-4">
+                    <ul className="list-disc pl-4 sm:pl-5 space-y-1.5 text-sm sm:text-base text-foreground/90 mb-4">
                     <li>
                       Built and maintained high-quality web solutions, including Gatsby-based applications, WordPress
                       websites, and custom front-end/back-end development.
@@ -328,10 +352,10 @@ export default function Portfolio() {
 
                   <div className="mb-4">
                     <h5 className="font-semibold text-sm sm:text-base mb-1.5">Chaosground – Gaming Desktop Application (Project Lead)</h5>
-                    <p className="text-gray-600 text-xs sm:text-sm mb-1.5">
+                    <p className="text-muted-foreground text-xs sm:text-sm mb-1.5">
                       <span className="font-medium">Tech Stack:</span> Electron.js, Overwolf, React, Supabase, JavaScript
                     </p>
-                    <ul className="list-disc pl-4 sm:pl-5 space-y-1 text-xs sm:text-sm text-gray-700">
+                    <ul className="list-disc pl-4 sm:pl-5 space-y-1 text-xs sm:text-sm text-foreground/90">
                       <li>
                         Led end-to-end development of a cross-platform gaming desktop application as Senior Software Engineer.
                       </li>
@@ -355,10 +379,10 @@ export default function Portfolio() {
 
                   <div className="mb-4">
                     <h5 className="font-semibold text-sm sm:text-base mb-1.5">Real Estate Web Platform (Team Project)</h5>
-                    <p className="text-gray-600 text-xs sm:text-sm mb-1.5">
+                    <p className="text-muted-foreground text-xs sm:text-sm mb-1.5">
                       <span className="font-medium">Tech Stack:</span> Next.js, React, JavaScript, REST APIs
                     </p>
-                    <ul className="list-disc pl-4 sm:pl-5 space-y-1 text-xs sm:text-sm text-gray-700">
+                    <ul className="list-disc pl-4 sm:pl-5 space-y-1 text-xs sm:text-sm text-foreground/90">
                       <li>
                         Contributed within a cross-functional team to build a modern real estate web platform.
                       </li>
@@ -379,10 +403,10 @@ export default function Portfolio() {
 
                   <div className="mb-4">
                     <h5 className="font-semibold text-sm sm:text-base mb-1.5">Ogno — Marketing Analytics Dashboard</h5>
-                    <p className="text-gray-600 text-xs sm:text-sm mb-1.5">
+                    <p className="text-muted-foreground text-xs sm:text-sm mb-1.5">
                       <span className="font-medium">Tech Stack:</span> Next.js 15, React 19, TypeScript, PostgreSQL, Prisma ORM, NextAuth.js, Stripe, Trigger.dev, Redis, Tailwind CSS, shadcn/ui, Zod, Docker
                     </p>
-                    <ul className="list-disc pl-4 sm:pl-5 space-y-1 text-xs sm:text-sm text-gray-700">
+                    <ul className="list-disc pl-4 sm:pl-5 space-y-1 text-xs sm:text-sm text-foreground/90">
                       <li>
                         Architected and built a multi-tenant marketing analytics platform with omnichannel ad platform integrations (Google Ads, Meta Ads, LinkedIn Ads, TikTok Ads) using a modular sync pipeline.
                       </li>
@@ -406,10 +430,10 @@ export default function Portfolio() {
 
                   <div className="mb-4">
                     <h5 className="font-semibold text-sm sm:text-base mb-1.5">Alloy Automation (Workflow Automation Platform)</h5>
-                    <p className="text-gray-600 text-xs sm:text-sm mb-1.5">
+                    <p className="text-muted-foreground text-xs sm:text-sm mb-1.5">
                       <span className="font-medium">Tech Stack:</span> Node.js, Express, TypeScript, React, MobX, MongoDB, Redis, Docker, AWS (S3, SQS, Lambda), OpenAPI (OAS), OAuth 2.0, Vite, Ant Design, Tailwind CSS, Jest, Playwright
                     </p>
-                    <ul className="list-disc pl-4 sm:pl-5 space-y-1 text-xs sm:text-sm text-gray-700">
+                    <ul className="list-disc pl-4 sm:pl-5 space-y-1 text-xs sm:text-sm text-foreground/90">
                       <li>
                         Architected and built 40+ OpenAPI Specification (OAS) connectors from scratch (Jira, HubSpot, Stripe, Zendesk, Airtable, LinkedIn, QuickBooks, TikTok Shop, WooCommerce, Microsoft SharePoint, and more), defining complete YAML specs with authentication and actions.
                       </li>
@@ -435,7 +459,7 @@ export default function Portfolio() {
             </ScrollReveal>
 
             <ScrollReveal direction="left" delay={0.3}>
-              <div className="relative border-l border-gray-300 pl-8">
+              <div className="relative border-l border-border pl-8">
                 <motion.div
                   className="absolute -left-3 top-0 h-6 w-6 rounded-full bg-primary flex items-center justify-center"
                   initial={{ scale: 0 }}
@@ -443,17 +467,17 @@ export default function Portfolio() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
                 >
-                  <Briefcase size={14} className="text-white" />
+                  <Briefcase size={14} className="text-primary-foreground" />
                 </motion.div>
 
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold">React Developer Intern</h3>
-                  <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base text-gray-600 mb-1">
+                  <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base text-muted-foreground mb-1">
                     <span className="font-medium">Infolabz Pvt. Ltd., Ahmedabad</span>
                     <span>•</span>
                     <span>January 2022 - May 2022</span>
                   </div>
-                  <p className="text-sm sm:text-base text-gray-700">
+                  <p className="text-sm sm:text-base text-foreground/90">
                     Infolabz is a web application development and IT consulting company, offering innovative solutions
                     across various industries. They specialize in React-based web apps, focusing on security, data
                     protection, and enhancing user experience through API integration and state management.
@@ -466,7 +490,7 @@ export default function Portfolio() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-12 bg-white relative">
+      <section id="skills" className="py-12 bg-background relative">
         <AnimatedGradientBackground />
         <div className="container px-4 sm:px-6">
           <ScrollReveal>
@@ -525,7 +549,7 @@ export default function Portfolio() {
                   },
                 ].map((category, index) => (
                   <ScrollReveal key={category.title} delay={index * 0.1} direction={index % 2 === 0 ? "left" : "right"}>
-                    <Card className="overflow-hidden backdrop-blur-sm bg-white/80 border-primary/10 hover:shadow-lg hover:border-primary/30 transition-all duration-300">
+                    <Card className="overflow-hidden backdrop-blur-sm bg-card/80 border-border hover:shadow-lg hover:border-primary/30 transition-all duration-300">
                       <CardContent className="p-6">
                         <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
                           <Code size={18} className="text-primary" />
@@ -676,7 +700,7 @@ export default function Portfolio() {
                   },
                 ].map((skill, index) => (
                   <ScrollReveal key={skill.title} delay={index * 0.1}>
-                    <Card className="backdrop-blur-sm bg-white/80 border-primary/10 hover:shadow-lg hover:border-primary/30 transition-all duration-300">
+                    <Card className="backdrop-blur-sm bg-card/80 border-border hover:shadow-lg hover:border-primary/30 transition-all duration-300">
                       <CardContent className="p-6 flex flex-col items-center text-center">
                         <motion.div
                           className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-3"
@@ -686,7 +710,7 @@ export default function Portfolio() {
                           {skill.icon}
                         </motion.div>
                         <h3 className="font-semibold mb-2">{skill.title}</h3>
-                        <p className="text-gray-600 text-sm">{skill.description}</p>
+                        <p className="text-muted-foreground text-sm">{skill.description}</p>
                       </CardContent>
                     </Card>
                   </ScrollReveal>
@@ -698,12 +722,12 @@ export default function Portfolio() {
       </section>
 
       {/* Featured Projects Section */}
-      <section id="projects" className="py-12 bg-gray-50 relative">
+      <section id="projects" className="py-12 bg-muted/30 relative">
         <FloatingShapes />
         <div className="container px-4 sm:px-6">
           <ScrollReveal>
             <h2 className="text-2xl sm:text-3xl font-bold mb-3 text-center">Featured Projects</h2>
-            <p className="text-sm sm:text-base text-gray-600 text-center mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
+            <p className="text-sm sm:text-base text-muted-foreground text-center mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
               Here are some of the projects I've worked on that showcase my skills and experience in full-stack development.
             </p>
           </ScrollReveal>
@@ -748,8 +772,8 @@ export default function Portfolio() {
               },
             ].map((project, index) => (
               <ScrollReveal key={project.title} delay={index * 0.1} direction={index % 2 === 0 ? "left" : "right"}>
-                <Card className="overflow-hidden backdrop-blur-sm bg-white/80 border-primary/10 hover:shadow-lg hover:border-primary/30 transition-all duration-300 h-full flex flex-col">
-                  <div className="relative w-full h-48 bg-gray-200 overflow-hidden">
+                <Card className="overflow-hidden backdrop-blur-sm bg-card/80 border-border hover:shadow-lg hover:border-primary/30 transition-all duration-300 h-full flex flex-col">
+                  <div className="relative w-full h-48 bg-muted overflow-hidden">
                     <Image
                       src={project.image}
                       alt={project.title}
@@ -759,7 +783,7 @@ export default function Portfolio() {
                   </div>
                   <CardContent className="p-6 flex flex-col flex-grow">
                     <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                    <p className="text-gray-700 mb-3 flex-grow">{project.description}</p>
+                    <p className="text-foreground/90 mb-3 flex-grow">{project.description}</p>
                     <div className="flex flex-wrap gap-2">
                       {project.technologies.map((tech) => (
                         <Badge key={tech} variant="secondary" className="text-xs">
@@ -776,7 +800,7 @@ export default function Portfolio() {
       </section>
 
       {/* Education Section */}
-      <section id="education" className="py-12 bg-gray-50 relative">
+      <section id="education" className="py-12 bg-muted/30 relative">
         <FloatingShapes />
         <div className="container px-4 sm:px-6">
           <ScrollReveal>
@@ -785,7 +809,7 @@ export default function Portfolio() {
 
           <div className="max-w-4xl mx-auto">
             <ScrollReveal direction="left">
-              <div className="relative border-l border-gray-300 pl-4 sm:pl-8 pb-8 sm:pb-10">
+              <div className="relative border-l border-border pl-4 sm:pl-8 pb-8 sm:pb-10">
                 <motion.div
                   className="absolute -left-3 top-0 h-6 w-6 rounded-full bg-primary flex items-center justify-center"
                   initial={{ scale: 0 }}
@@ -793,17 +817,17 @@ export default function Portfolio() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
                 >
-                  <GraduationCap size={14} className="text-white" />
+                  <GraduationCap size={14} className="text-primary-foreground" />
                 </motion.div>
 
                 <div className="mb-4">
                   <h3 className="text-lg sm:text-xl font-bold">B.E. in Computer Engineering</h3>
-                  <div className="flex items-center gap-2 text-gray-600 mb-1">
+                  <div className="flex items-center gap-2 text-muted-foreground mb-1">
                     <span className="font-medium">SAL Institute of Technology & Engineering Research</span>
                     <span>•</span>
                     <span>2019 - 2022</span>
                   </div>
-                  <p className="text-gray-700">Ahmedabad, Gujarat</p>
+                  <p className="text-foreground/90">Ahmedabad, Gujarat</p>
                 </div>
               </div>
             </ScrollReveal>
@@ -817,17 +841,17 @@ export default function Portfolio() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
                 >
-                  <GraduationCap size={14} className="text-white" />
+                  <GraduationCap size={14} className="text-primary-foreground" />
                 </motion.div>
 
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold">Diploma in Computer Engineering</h3>
-                  <div className="flex items-center gap-2 text-gray-600 mb-1">
+                  <div className="flex items-center gap-2 text-muted-foreground mb-1">
                     <span className="font-medium">L.J. Polytechnic</span>
                     <span>•</span>
                     <span>2016 - 2019</span>
                   </div>
-                  <p className="text-gray-700">Ahmedabad, Gujarat</p>
+                  <p className="text-foreground/90">Ahmedabad, Gujarat</p>
                 </div>
               </div>
             </ScrollReveal>
@@ -836,7 +860,7 @@ export default function Portfolio() {
       </section>
 
       {/* Quotes Section */}
-      <section id="quotes" className="py-12 bg-white overflow-hidden relative">
+      <section id="quotes" className="py-12 bg-background overflow-hidden relative">
         <AnimatedGradientBackground />
         <div className="container px-4 sm:px-6">
           <ScrollReveal>
@@ -848,16 +872,16 @@ export default function Portfolio() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-12 bg-gray-50 relative">
+      <section id="contact" className="py-12 bg-muted/30 relative">
         <ParticlesBackground />
-        <div className="container px-4 sm:px-6">
+        <div className="relative z-10 container px-4 sm:px-6">
           <ScrollReveal>
             <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">Get In Touch</h2>
           </ScrollReveal>
 
           <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <ScrollReveal direction="left">
-              <div className="backdrop-blur-sm bg-white/80 p-6 rounded-lg border border-gray-200 hover:shadow-lg hover:border-primary/30 transition-all duration-300">
+              <div className="backdrop-blur-sm bg-card/80 p-6 rounded-lg border border-border hover:shadow-lg hover:border-primary/30 transition-all duration-300">
                 <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
 
                 <div className="space-y-4">
@@ -920,7 +944,7 @@ export default function Portfolio() {
             </ScrollReveal>
 
             <ScrollReveal direction="right">
-              <div className="backdrop-blur-sm bg-white/80 p-6 rounded-lg border border-gray-200 hover:shadow-lg hover:border-primary/30 transition-all duration-300">
+              <div className="backdrop-blur-sm bg-card/80 p-6 rounded-lg border border-border hover:shadow-lg hover:border-primary/30 transition-all duration-300">
                 <h3 className="text-xl font-semibold mb-4">Send a Message</h3>
                 <ContactForm />
               </div>
@@ -930,8 +954,8 @@ export default function Portfolio() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 bg-gray-900 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent opacity-20"></div>
+      <footer className="py-8 bg-card border-t border-border relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-50 dark:opacity-30"></div>
         <div className="container relative px-4 sm:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <motion.div
@@ -941,8 +965,8 @@ export default function Portfolio() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-xl font-bold">Anjali Dave</h3>
-              <p className="text-gray-400">Software Engineer | MERN Stack Developer</p>
+              <h3 className="text-xl font-bold text-foreground">Anjali Dave</h3>
+              <p className="text-muted-foreground">Software Engineer | MERN Stack Developer</p>
             </motion.div>
 
             <motion.div
@@ -954,17 +978,17 @@ export default function Portfolio() {
             >
               {[
                 {
-                  icon: <Linkedin size={18} />,
+                  icon: <Linkedin size={18} className="text-foreground" />,
                   link: "https://www.linkedin.com/in/anjali-dave-67234421b",
                   label: "LinkedIn",
                 },
                 {
-                  icon: <Github size={18} />,
+                  icon: <Github size={18} className="text-foreground" />,
                   link: "https://github.com/CodeWithAnjaliTechie",
                   label: "GitHub",
                 },
                 {
-                  icon: <Mail size={18} />,
+                  icon: <Mail size={18} className="text-foreground" />,
                   link: "mailto:anjaliwork0912@gmail.com",
                   label: "Email",
                 },
@@ -975,7 +999,7 @@ export default function Portfolio() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={item.label}
-                  className="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition-colors cursor-pointer"
+                  className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
                   whileHover={{ scale: 1.2, rotate: 10 }}
                   transition={{ type: "spring", stiffness: 300, damping: 10 }}
                 >

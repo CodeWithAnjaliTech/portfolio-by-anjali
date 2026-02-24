@@ -33,11 +33,11 @@ export function ContactInfoItem({ icon, title, content, link, index = 0, noLink 
         <h4 className="font-medium mb-1">{title}</h4>
         {typeof content === "string" ? (
           noLink || !link ? (
-            <p className="text-gray-700">{content}</p>
+            <p className="text-foreground/90">{content}</p>
           ) : (
             <a
               href={link}
-              className="text-gray-700 hover:text-primary transition-colors cursor-pointer"
+              className="text-foreground/90 hover:text-primary transition-colors cursor-pointer"
               target={link.startsWith("http") ? "_blank" : "_self"}
               rel={link.startsWith("http") ? "noopener noreferrer" : ""}
             >

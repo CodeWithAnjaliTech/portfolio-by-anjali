@@ -92,7 +92,7 @@ export function ContactForm() {
           <CheckCircle size={60} />
         </motion.div>
         <h3 className="text-xl font-semibold mb-2">Message Sent!</h3>
-        <p className="text-gray-600 mb-6">Thank you for reaching out. I'll get back to you as soon as possible.</p>
+        <p className="text-muted-foreground mb-6">Thank you for reaching out. I'll get back to you as soon as possible.</p>
         <Button onClick={() => setIsSubmitted(false)} variant="outline" className="gap-2">
           <Send size={16} />
           Send Another Message
@@ -132,7 +132,7 @@ export function ContactForm() {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+          className="w-full px-4 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-200 text-foreground placeholder:text-muted-foreground"
           placeholder="Your name"
           required
         />
@@ -154,7 +154,7 @@ export function ContactForm() {
           name="email"
           value={formData.email}
           onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+          className="w-full px-4 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-200 text-foreground placeholder:text-muted-foreground"
           placeholder="Your email"
           required
         />
@@ -176,7 +176,7 @@ export function ContactForm() {
           name="subject"
           value={formData.subject}
           onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+          className="w-full px-4 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-200 text-foreground placeholder:text-muted-foreground"
           placeholder="Subject"
         />
       </motion.div>
@@ -197,7 +197,7 @@ export function ContactForm() {
           value={formData.message}
           onChange={handleChange}
           rows={5}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+          className="w-full px-4 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-200 text-foreground placeholder:text-muted-foreground"
           placeholder="Your message"
           required
         ></textarea>

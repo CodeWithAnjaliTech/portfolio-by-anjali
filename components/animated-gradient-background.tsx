@@ -15,7 +15,7 @@ export function AnimatedGradientBackground() {
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden">
       <motion.div
-        className="absolute -inset-[10%] opacity-20"
+        className="absolute -inset-[10%] opacity-20 dark:opacity-10"
         animate={{
           backgroundPosition: ["0% 0%", "100% 100%"],
         }}
@@ -25,7 +25,7 @@ export function AnimatedGradientBackground() {
           repeatType: "reverse",
         }}
         style={{
-          backgroundImage: "radial-gradient(circle at 50% 50%, #3b82f6, transparent 40%)",
+          backgroundImage: "radial-gradient(circle at 50% 50%, hsl(var(--primary)), transparent 40%)",
           backgroundSize: "80% 80%",
           backgroundRepeat: "no-repeat",
         }}
