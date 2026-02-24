@@ -4,8 +4,8 @@ import type React from "react"
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { motion } from "framer-motion"
-import { CheckCircle, Loader2, Send, AlertCircle } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { CheckCircle, Loader2, Send, AlertCircle, Code } from "lucide-react"
 import { toast } from "@/components/ui/use-toast"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
@@ -23,6 +23,8 @@ export function ContactForm() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+    // Clear error when user starts typing
+    if (error) setError("")
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,8 +33,14 @@ export function ContactForm() {
     setError("")
 
     // Validate form
-    if (!formData.name || !formData.email || !formData.message) {
-      setError("Please fill in all required fields")
+    if (!formData.name.trim()) {
+      setError("Name is required")
+      setIsSubmitting(false)
+      return
+    }
+
+    if (!formData.email.trim()) {
+      setError("Email is required")
       setIsSubmitting(false)
       return
     }
@@ -45,16 +53,37 @@ export function ContactForm() {
       return
     }
 
-    // Simulate form submission with a delay
+    if (!formData.message.trim()) {
+      setError("Message is required")
+      setIsSubmitting(false)
+      return
+    }
+
     try {
-      // In a real application, you would send this data to your server
-      // For now, we'll simulate a successful submission
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      // Send email using API route
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject || "Contact from Portfolio",
+          message: formData.message,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message")
+      }
 
       // Show success toast
       toast({
-        title: "Message sent successfully!",
-        description: `Thank you ${formData.name}, your message has been sent to Anjali.`,
+        title: "Message sent successfully! ✨",
+        description: `Thank you ${formData.name}, your message has been delivered!`,
       })
 
       setIsSubmitted(true)
@@ -65,7 +94,7 @@ export function ContactForm() {
         message: "",
       })
     } catch (err) {
-      setError("Something went wrong. Please try again later.")
+      setError("Something went wrong. Please try again later or contact directly via email.")
       toast({
         title: "Error sending message",
         description: "Please try again or contact directly via email.",
@@ -86,35 +115,79 @@ export function ContactForm() {
         <motion.div
           className="mb-6 text-primary"
           initial={{ scale: 0 }}
-          animate={{ scale: 1, rotate: [0, 10, 0] }}
+          animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
         >
-          <CheckCircle size={60} />
+          <motion.div
+            animate={{ rotate: [0, 10, -10, 0] }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+          >
+            <CheckCircle size={60} />
+          </motion.div>
         </motion.div>
-        <h3 className="text-xl font-semibold mb-2">Message Sent!</h3>
-        <p className="text-muted-foreground mb-6">Thank you for reaching out. I'll get back to you as soon as possible.</p>
-        <Button onClick={() => setIsSubmitted(false)} variant="outline" className="gap-2">
-          <Send size={16} />
-          Send Another Message
-        </Button>
+        <motion.h3 
+          className="text-xl font-semibold mb-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          Message Sent Successfully! 🎉
+        </motion.h3>
+        <motion.p 
+          className="text-muted-foreground mb-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          Thank you for reaching out! I'll get back to you as soon as possible.
+        </motion.p>
+        <motion.div
+          className="bg-card border border-border rounded-lg p-4 mb-6 font-mono text-sm"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          <div className="flex items-center gap-2 text-primary mb-2">
+            <Code size={16} />
+            <span className="text-xs text-muted-foreground">&lt;/&gt;</span>
+          </div>
+          <div className="text-left space-y-1">
+            <div><span className="text-primary">status</span>: <span className="text-green-500">"success"</span></div>
+            <div><span className="text-primary">message</span>: <span className="text-green-500">"delivered"</span></div>
+            <div><span className="text-primary">response</span>: <span className="text-blue-500">"Thank you! ✨"</span></div>
+          </div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          <Button onClick={() => setIsSubmitted(false)} variant="outline" className="gap-2">
+            <Send size={16} />
+            Send Another Message
+          </Button>
+        </motion.div>
       </motion.div>
     )
   }
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
-      {error && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-        >
-          <Alert variant="destructive" className="mb-4">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Alert variant="destructive" className="mb-4">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
